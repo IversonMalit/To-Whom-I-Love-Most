@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+<style>
+body {
+    font-family: 'Delius', sans-serif;
+    background-color: #fff0f5;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    position: relative;
+    overflow: hidden;
+}
+
+h1 { 
+    text-align: center; 
+    color: #c71585; 
+    font-family: 'Delius', sans-serif; 
+    position: relative; 
+    z-index: 1; 
+}
+
+/* Main poem box below title */
+.poem {
+    background-color: #ffe4e1;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 700px;
+    text-align: center;
+    box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
+    animation: slideUp 1s ease forwards;
+    position: relative;
+    z-index: 1;
+}
+
+/* Side poem columns */
+.left-column, .right-column {
+    position: absolute;
+    top: 400px; /* adjust vertical position if needed */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 1;
+}
+
+/* Move left and right columns closer to the rose */
+.left-column {
+    left: 20%; /* distance from left edge */
+}
+
+.right-column {
+    right: 20%; /* distance from right edge */
+}
+
+/* Horizontal poem boxes for side columns */
+.side-poem {
+    background-color: #ffe4e1;
+    padding: 15px;
+    border-radius: 10px;
+    width: 200px; /* horizontal: longer than tall */
+    height: 120px;
+    text-align: center;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Rose image */
+.rose-container {
+    position: absolute;
+    bottom: 200px;
+    top: 43%;
+    right: 39%;
+    overflow: visible;
+    z-index: 0; /* behind content */
+}
+.rose-container img {
+    width: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 100%;
+}
+
+/* Back button */
+.back-btn {
+    display: block;
+    margin: 30px auto 0;
+    padding: 12px 30px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 10px;
+    background-color: #c71585;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.back-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn { to { opacity: 1; } }
+@keyframes fadeOut { to { opacity: 0; } }
+</style>
+</head>
+<body>
+<h1>Poems</h1>
+
+<div class="poem">
+    <p>"Here are some poems I wrote about you.</p>
+    <p>These two are my favorites, chosen from my notes.</p>
+    <p>The rest. You're not allowed to see, Heh."</p>
+</div>
+
+<!-- Left column of poems -->
+<div class="left-column">
+    <div class="side-poem">Poem 1 aaaaaaaaaa</div>
+</div>
+
+<!-- Right column of poems -->
+<div class="right-column">
+    <div class="side-poem">Poem 2</div>
+</div>
+
+<!-- Rose image -->
+<div class="rose-container">
+    <img src="roses2.png" alt="decorative image">
+</div>
+
+<button class="back-btn" onclick="goBack()">Back</button>
+
+<script>
+function goBack(){
+    document.body.style.animation = "fadeOut 0.5s forwards";
+    setTimeout(() => { window.location.href = 'index.html'; }, 500);
+}
+</script>
+</body>
+</html>
