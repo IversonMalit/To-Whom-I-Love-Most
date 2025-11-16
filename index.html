@@ -9,129 +9,116 @@
 <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
 <style>
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Delius', sans-serif;
-    background-color: #ffe6f2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto;
-    opacity: 0;
-    animation: fadeIn 1s forwards;
+  margin: 0;
+  padding: 0;
+  font-family: 'Delius', sans-serif;
+  background-color: #ffe6f2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
 }
 @keyframes fadeIn { to { opacity: 1; } }
 
 .header-box {
-    margin-top: 20px;
-    background: white;
-    padding: 15px 20px;
-    border-radius: 25px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    font-size: clamp(1.5em, 6vw, 2.3em);
-    font-weight: bold;
-    color: #000;
-    text-align: center;
-    z-index: 2;
-}
-
-.buttons {
-    margin-top: 15px;
-    display: none; /* hidden until unlock */
-    gap: 15px;
-    flex-wrap: wrap;
-    justify-content: center;
-    z-index: 2;
-}
-.btn {
-    padding: 12px 25px;
-    background-color: #c71585;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-size: clamp(0.9em, 4vw, 1.2em);
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
-}
-.btn:hover {
-    transform: scale(1.1);
-    box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
+  margin-top: 20px;
+  background: white;
+  padding: 15px 20px;
+  border-radius: 25px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  font-size: clamp(1.5em, 6vw, 2.3em);
+  font-weight: bold;
+  text-align: center;
+  z-index: 2;
 }
 
 #countdown {
-    margin-top: 15px;
-    font-size: clamp(1em, 4vw, 1.5em);
-    color: #c71585;
-    text-align: center;
-    z-index: 2;
+  margin-top: 10px;
+  font-size: clamp(1em, 4vw, 1.5em);
+  color: #c71585;
+  text-align: center;
+  z-index: 2;
 }
 
-/* Rose image container */
+.buttons {
+  margin-top: 15px;
+  display: none; /* hidden until unlock */
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  z-index: 2;
+}
+.btn {
+  padding: 12px 25px;
+  background-color: #c71585;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: clamp(0.9em, 4vw, 1.2em);
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+}
+.btn:hover {
+  transform: scale(1.1);
+  box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Rose */
 .rose-container {
-    width: 90%;
-    max-width: 500px;
-    margin: 20px 0;
-    z-index: 1;
+  width: 90%;
+  max-width: 500px;
+  margin: 20px 0;
 }
 .rose-container img {
-    width: 100%;
-    height: auto;
-    display: block;
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 15px;
 }
 
 /* Hearts */
 .balloon {
-    position: absolute;
-    top: -120px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    pointer-events: none;
-    opacity: 0;
-    z-index: 0;
+  position: absolute;
+  top: -100px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 0;
 }
-
 @keyframes floatDown {
-    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
-    10% { opacity: 1; }
-    100% { transform: translateY(120vh) translateX(var(--sway)) rotate(var(--rotate)); opacity: 1; }
+  0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(120vh) translateX(var(--sway)) rotate(var(--rotate)); opacity: 1; }
 }
 
 @media (max-width: 500px) {
-    body {
-        padding: 10px;
-    }
-    .header-box {
-        margin-top: 15px;
-        padding: 12px 15px;
-    }
-    .buttons {
-        margin-top: 10px;
-    }
+  body { padding: 10px; }
+  .header-box { padding: 12px 15px; }
 }
 </style>
 </head>
 <body>
 
 <div class="header-box">For My Fairest</div>
-
-<div class="buttons" id="buttons">
-    <button class="btn" onclick="goToPage('letters.html')">Letter</button>
-    <button class="btn" onclick="goToPage('poems.html')">Poems</button>
-</div>
-
 <div id="countdown">Loading countdown...</div>
-
+<div class="buttons" id="buttons">
+  <button class="btn" onclick="goToPage('letters.html')">Letter</button>
+  <button class="btn" onclick="goToPage('poems.html')">Poems</button>
+</div>
 <div class="rose-container">
-    <img src="rose_PNG66734.png" alt="rose petals">
+  <img src="rose_PNG66734.png" alt="rose petals">
 </div>
 
 <script>
 function goToPage(url) {
-    document.body.style.animation = 'fadeOut 0.5s forwards';
-    setTimeout(() => { window.location.href = url; }, 500);
+  document.body.style.animation = 'fadeOut 0.5s forwards';
+  setTimeout(() => { window.location.href = url; }, 500);
 }
 
 // Countdown
@@ -140,24 +127,20 @@ const buttonsDiv = document.getElementById('buttons');
 const targetDate = new Date("November 18, 2025 00:00:00").getTime();
 
 function updateCountdown() {
-    const now = new Date().getTime();
-    const distance = targetDate - now;
-
-    if(distance <= 0){
-        buttonsDiv.style.display = 'flex';
-        countdownEl.style.display = 'none';
-        clearInterval(countdownInterval);
-        return;
-    }
-
-    const days = Math.floor(distance / (1000*60*60*24));
-    const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-    const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-    const seconds = Math.floor((distance % (1000*60)) / 1000);
-
-    countdownEl.textContent = `Unlocks in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+  const now = new Date().getTime();
+  const distance = targetDate - now;
+  if(distance <= 0){
+    buttonsDiv.style.display = 'flex';
+    countdownEl.style.display = 'none';
+    clearInterval(countdownInterval);
+    return;
+  }
+  const days = Math.floor(distance / (1000*60*60*24));
+  const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+  const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+  const seconds = Math.floor((distance % (1000*60)) / 1000);
+  countdownEl.textContent = `Unlocks in ${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
-
 const countdownInterval = setInterval(updateCountdown, 1000);
 updateCountdown();
 
@@ -166,28 +149,25 @@ const heartImages = [
   'balloon1.png','balloon2.png','balloon3.png','balloon4.png','balloon5.png',
   'balloon6.png','balloon7.png','balloon8.png','balloon9.png','balloon10.png'
 ];
-
 function random(min, max) { return Math.random() * (max - min) + min; }
-
 function createHeart() {
-    const heart = document.createElement('div');
-    heart.className = 'balloon';
-    heart.style.backgroundImage = `url('${heartImages[Math.floor(random(0, heartImages.length))]}')`;
-    const size = random(40, 100);
-    heart.style.width = `${size}px`;
-    heart.style.height = `${size}px`;
-    heart.style.left = `${random(0, 95)}%`;
-    heart.style.setProperty('--sway', `${random(-200,200)}px`);
-    heart.style.setProperty('--rotate', `${random(-100,100)}deg`);
-    const duration = random(6,12);
-    heart.style.animation = `floatDown ${duration}s linear forwards`;
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), duration*1000);
+  const heart = document.createElement('div');
+  heart.className = 'balloon';
+  heart.style.backgroundImage = `url('${heartImages[Math.floor(random(0, heartImages.length))]}')`;
+  const size = random(40, 100);
+  heart.style.width = `${size}px`;
+  heart.style.height = `${size}px`;
+  heart.style.left = `${random(0, 95)}%`;
+  heart.style.setProperty('--sway', `${random(-200,200)}px`);
+  heart.style.setProperty('--rotate', `${random(-100,100)}deg`);
+  const duration = random(6,12);
+  heart.style.animation = `floatDown ${duration}s linear forwards`;
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), duration*1000);
 }
-
 function spawnHearts() {
-    createHeart();
-    setTimeout(spawnHearts, random(200,800));
+  createHeart();
+  setTimeout(spawnHearts, random(200,800));
 }
 spawnHearts();
 </script>
