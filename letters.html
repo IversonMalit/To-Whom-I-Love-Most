@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Letters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+
+<style>
+body {
+    font-family: 'Delius', sans-serif;
+    background-color: #fff0f5;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes fadeIn { to { opacity: 1; } }
+@keyframes fadeOut { to { opacity: 0; } }
+
+/* 🌹 FLOATING ROSES */
+.floating-rose {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    animation: floatAround linear infinite;
+    transition: opacity 1.5s ease-in-out;
+    z-index: 0;
+}
+
+@keyframes floatAround {
+    0% {
+        transform: translate(0px, 0px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.9;
+    }
+    50% {
+        transform: translate(var(--x-move), var(--y-move)) rotate(var(--rotate));
+        opacity: 1;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(0px, 0px) rotate(calc(var(--rotate) * -1));
+        opacity: 0;
+    }
+}
+
+/* CONTENT */
+h1 { 
+    text-align: center; 
+    color: #c71585; 
+    z-index: 2;
+    position: relative;
+}
+
+.letter {
+    background-color: #ffe4e1;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 700px;
+    text-align: center;
+    box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
+    animation: slideUp 1s ease forwards;
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.back-btn {
+    display: block;
+    margin: 30px auto 0;
+    padding: 12px 30px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 10px;
+    background-color: #c71585;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+    font-family: 'Delius', sans-serif;
+    z-index: 2;
+    position: relative;
+}
+
+.back-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Decorative bottom rose image */
+.rose-container {
+    position: absolute;
+    bottom: 200px;
+    width: 100%;
+    height: 600px;
+    z-index: 1;
+}
+.rose-container img {
+    width: 100%;
+    display: block;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Letter</h1>
+
+<div class="letter">
+    <p>Dear Labs,</p>
+    <p>I hope you know how important you are to me,</p>
+    <p>you will always be my one and only. No matter what,</p>
+    <p>I will always be right here beside you. Through every hardship,</p>
+    <p>achievement, happiness, and moment of doubt. I'll stand with you.</p>
+    &ensp;
+    <p>You've become a big part of my life, and I am grateful for every moment I spend with you.</p>
+    <p>Every smile, every laugh, and even when things become heavy.</p>
+    <p>All the memory, I will cherish it as long as it's with you.</p>
+    <p>Your presence brings me peace, comfort, strength, and the will to carry on everyday.</p>
+    &ensp;
+    <p>Always remember that my support for you isn't temporary,</p>
+    <p>it's unwavering and unbreaking. I'll always believe in you.</p>
+    <p>I will be the one to remind you of your worth, whatever the future holds.</p>
+    <p>We will face it together. Hand in hand, with patience, trust, love, and faith being our guide.</p>
+</div>
+
+<button class="back-btn" onclick="goBack()">Back</button>
+
+<div class="rose-container">
+    <img src="pngegg.png" alt="decorative image">
+</div>
+
+<script>
+function goBack(){
+    document.body.style.animation = "fadeOut 0.5s forwards";
+    setTimeout(() => { window.location.href = 'index.html'; }, 500);
+}
+
+/* 🌹 Floating Roses Generator */
+const roseImages = [
+    "rosegraphic1.png",
+    "rosegraphic2.png",
+    "rosegraphic3.png",
+    "rosegraphic4.png",
+    "rosegraphic5.png",
+    "rosegraphic6.png"
+];
+
+function random(min, max){
+    return Math.random() * (max - min) + min;
+}
+
+function spawnRose() {
+    const rose = document.createElement("img");
+    rose.src = roseImages[Math.floor(Math.random() * roseImages.length)];
+    rose.className = "floating-rose";
+
+    /* Natural size mix */
+    const size = random(40, 120);
+    rose.style.width = size + "px";
+
+    /* Starting position */
+    rose.style.left = random(0, 90) + "vw";
+    rose.style.top = random(0, 80) + "vh";
+
+    /* Movement variables */
+    rose.style.setProperty('--x-move', random(-80, 80) + "px");
+    rose.style.setProperty('--y-move', random(-60, 60) + "px");
+    rose.style.setProperty('--rotate', random(-40, 40) + "deg");
+
+    const duration = random(6, 12);
+    rose.style.animationDuration = duration + "s";
+
+    document.body.appendChild(rose);
+
+    setTimeout(() => {
+        rose.remove();
+        spawnRose();
+    }, duration * 1000);
+}
+
+/* Spawn 14 roses for a balanced aesthetic */
+for (let i = 0; i < 14; i++) {
+    setTimeout(spawnRose, i * 400);
+}
+</script>
+
+</body>
+</html>
