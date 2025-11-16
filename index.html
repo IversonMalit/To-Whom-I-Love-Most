@@ -19,16 +19,15 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
     min-height: 100vh;
     overflow-x: hidden;
     opacity: 0;
     animation: fadeIn 1s forwards;
 }
 
-/* Fade animation */
-@keyframes fadeIn { to { opacity: 1; } }
-@keyframes fadeOut { to { opacity: 0; } }
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
 
 /* HEADER */
 .header-box {
@@ -56,7 +55,7 @@ body {
 /* BUTTONS */
 .buttons {
     margin-top: 40px;
-    display: none; /* hidden until unlock */
+    display: none;
     gap: 20px;
     z-index: 10;
 }
@@ -77,23 +76,24 @@ body {
     box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
 }
 
-/* 🌹 ROSE PETALS (DESKTOP) */
+/* 🌹 ROSE PETALS — DESKTOP (unchanged) */
 .rose-container {
     position: absolute;
-    top: 200px;
-    bottom: 200px;
+    bottom: 0;
     width: 100%;
-    height: 600px;
-    overflow: visible;
+    height: 350px;
+    overflow: hidden;
     z-index: 1;
 }
+
 .rose-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top;
 }
 
-/* 💗 FLOATING HEARTS */
+/* FLOATING HEARTS */
 .balloon {
     position: absolute;
     top: -100px;
@@ -101,7 +101,7 @@ body {
     background-repeat: no-repeat;
     pointer-events: none;
     opacity: 0;
-    z-index: 0;
+    z-index: 1;
 }
 
 @keyframes floatDown {
@@ -110,47 +110,49 @@ body {
     100% { transform: translateY(120vh) translateX(var(--sway)) rotate(var(--rotate)); opacity: 1; }
 }
 
-/* 📱 MOBILE FIXES */
+/* ⭐ MOBILE FIX — same as desktop but scaled and pinned correctly ⭐ */
 @media (max-width: 600px) {
 
     body {
-        padding-bottom: 40px;
-        overflow-y: auto;
+        padding-bottom: 180px; /* ensures content never overlaps roses */
     }
 
     .header-box {
         font-size: 1.6em;
-        margin-top: 20px;
         padding: 15px 25px;
+        margin-top: 25px;
     }
 
     #countdown {
         font-size: 1.2em;
-        margin-top: 10px;
+        margin-top: 15px;
     }
 
-    /* Mobile roses fix */
-    .rose-container {
-        position: relative;
-        top: 0;
-        bottom: 0;
-        height: auto;
-        margin-top: 40px;
-    }
-    .rose-container img {
-        width: 100%;
-        height: auto;
-    }
-
-    /* Buttons stacked */
     .buttons {
         flex-direction: column;
-        align-items: center;
     }
+
     .btn {
         width: 80%;
         font-size: 1.1em;
         padding: 15px;
+    }
+
+    /* 🌹 MOBILE ROSE FIX */
+    .rose-container {
+        position: fixed;   /* lock to bottom */
+        bottom: 0;
+        width: 100%;
+        height: 180px;     /* smaller reveal */
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .rose-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top; /* show same top petals effect */
     }
 }
 </style>
@@ -177,9 +179,11 @@ function goToPage(url) {
     setTimeout(() => { window.location.href = url; }, 500);
 }
 
-// COUNTDOWN SCRIPT
+// COUNTDOWN
 const countdownEl = document.getElementById('countdown');
 const buttonsDiv = document.getElementById('buttons');
+
+// Target date: November 18, 2025 12:00 AM
 const targetDate = new Date("November 18, 2025 00:00:00").getTime();
 
 function updateCountdown() {
@@ -231,6 +235,7 @@ function createHeart() {
     heart.style.animation = `floatDown ${duration}s linear forwards`;
 
     document.body.appendChild(heart);
+
     setTimeout(() => heart.remove(), duration * 1000);
 }
 
