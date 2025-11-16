@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<!-- Lock zoom on mobile and keep consistent scaling -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<!-- Prevent zoom + keep mobile fixed layout -->
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>To Whom I Love Most</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,42 +14,38 @@
 <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
 
 <style>
-:root{
+:root {
   --rose-height-desktop: 350px;
-  --rose-height-mobile: 180px;
+  --rose-height-mobile: 210px; /* A — slightly lower roses */
 }
 
-/* GENERAL PAGE STYLES */
-html,body{
+/* PAGE RESET */
+html, body {
     height: 100%;
     margin: 0;
     padding: 0;
 }
+
 body {
     font-family: 'Delius', sans-serif;
     background-color: #ffe6f2;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* We'll manage scrolling per breakpoint */
     overflow-x: hidden;
     opacity: 0;
     animation: fadeIn 1s forwards;
     -webkit-tap-highlight-color: transparent;
-    -webkit-user-select: none;
     user-select: none;
 }
 
-/* Fade animation */
 @keyframes fadeIn { to { opacity: 1; } }
 @keyframes fadeOut { to { opacity: 0; } }
 
-/* MAIN area that sits above the roses.
-   We ensure this area always fits above the rose strip so page does not overflow. */
+/* MAIN CONTENT ABOVE ROSES */
 .main {
     width: 100%;
     box-sizing: border-box;
-    /* reserve space equal to the rose height so content never overlaps */
     min-height: calc(100vh - var(--rose-height-desktop));
     display: flex;
     flex-direction: column;
@@ -64,10 +63,10 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     font-size: 2.3em;
     font-weight: bold;
-    color: #000000;
+    color: #000;
     text-align: center;
-    position: relative;
     z-index: 10;
+    position: relative;
 }
 
 /* COUNTDOWN */
@@ -88,22 +87,22 @@ body {
 
 .btn {
     padding: 15px 40px;
-    background-color: #c71585;
-    color: white;
+    background: #c71585;
+    color: #fff;
     border: none;
     border-radius: 20px;
     font-size: 1.2em;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.25s;
     box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
-    -webkit-tap-highlight-color: transparent;
 }
+
 .btn:hover {
     transform: scale(1.03);
     box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
 }
 
-/* 🌹 ROSE PETALS — DESKTOP (unchanged) */
+/* ROSES — FIXED ON DESKTOP */
 .rose-container {
     position: absolute;
     bottom: 0;
@@ -112,15 +111,16 @@ body {
     overflow: hidden;
     z-index: 1;
 }
+
 .rose-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: top;
-    display:block;
+    display: block;
 }
 
-/* FLOATING HEARTS */
+/* HEARTS */
 .balloon {
     position: absolute;
     top: -100px;
@@ -133,21 +133,21 @@ body {
 }
 
 @keyframes floatDown {
-    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
     10% { opacity: 1; }
     100% { transform: translateY(120vh) translateX(var(--sway)) rotate(var(--rotate)); opacity: 1; }
 }
 
-/* MOBILE: pin roses to bottom and make page non-scrollable/ non-zoomable */
+/* MOBILE FIXES */
 @media (max-width: 600px) {
 
-    /* Make body not scrollable on mobile and prevent overscroll bounce */
+    /* MOBILE SHOULD NOT MOVE */
     body {
-        overflow: hidden;               /* prevent page moving */
-        touch-action: none;             /* avoid panning gestures */
+        overflow: hidden;
+        touch-action: none;
     }
 
-    /* Make the main area reserve mobile rose height so content fits */
+    /* Adjust main height so text sits above lower roses */
     .main {
         min-height: calc(100vh - var(--rose-height-mobile));
     }
@@ -155,16 +155,12 @@ body {
     .header-box {
         font-size: 1.6em;
         padding: 15px 25px;
-        margin-top: 18px;
+        margin-top: 20px;
     }
 
     #countdown {
-        font-size: 1.2em;
         margin-top: 12px;
-    }
-
-    .buttons {
-        flex-direction: column;
+        font-size: 1.2em;
     }
 
     .btn {
@@ -173,42 +169,30 @@ body {
         padding: 13px;
     }
 
-    /* Pin the rose strip to the bottom of the viewport (like desktop) */
+    /* Roses stay fixed in place */
     .rose-container {
         position: fixed;
         bottom: 0;
-        left: 0;
-        width: 100%;
         height: var(--rose-height-mobile);
-        overflow: hidden;
-        z-index: 1;
-    }
-    .rose-container img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: top;
     }
 
-    /* Slightly reduce intensity of floating hearts on small screens so they're less distracting */
     .balloon {
         opacity: 0.95;
     }
 }
 
-/* For accessibility: keep keyboard users able to interact (desktop remains scrollable) */
+/* DESKTOP — KEEP SCROLL DISABLED */
 @media (min-width: 601px) {
-  body {
-    overflow-y: auto;
-    touch-action: auto;
-  }
+    body {
+        overflow-y: hidden; /* desktop should never scroll */
+        touch-action: auto;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- main area sits above the rose strip -->
 <div class="main">
   <div class="header-box">"To Whom I Love Most"</div>
 
@@ -220,7 +204,6 @@ body {
   </div>
 </div>
 
-<!-- roses pinned to bottom (desktop absolute, mobile fixed) -->
 <div class="rose-container" aria-hidden="true">
     <img src="rose_PNG66734.png" alt="rose petals">
 </div>
@@ -228,22 +211,22 @@ body {
 <script>
 function goToPage(url) {
     document.body.style.animation = 'fadeOut 0.5s forwards';
-    setTimeout(() => { window.location.href = url; }, 500);
+    setTimeout(() => window.location.href = url, 500);
 }
 
-// COUNTDOWN
-const countdownEl = document.getElementById('countdown');
-const buttonsDiv = document.getElementById('buttons');
-// Target date: November 18, 2025 12:00 AM
+/* COUNTDOWN */
+const countdownEl = document.getElementById("countdown");
+const buttonsDiv = document.getElementById("buttons");
+
 const targetDate = new Date("November 18, 2025 00:00:00").getTime();
 
 function updateCountdown() {
-    const now = new Date().getTime();
+    const now = Date.now();
     const distance = targetDate - now;
 
     if (distance <= 0) {
-        buttonsDiv.style.display = 'flex';
-        countdownEl.style.display = 'none';
+        buttonsDiv.style.display = "flex";
+        countdownEl.style.display = "none";
         clearInterval(countdownInterval);
         return;
     }
@@ -253,52 +236,46 @@ function updateCountdown() {
     const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
     const seconds = Math.floor((distance % (1000*60)) / 1000);
 
-    countdownEl.textContent = `Unlocks in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    countdownEl.textContent =
+        `Unlocks in ${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 
 const countdownInterval = setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// HEART SPAWNER (visual only)
-// keep spawn but ensure pointer-events none (won't disturb touches)
+/* HEART SPAWNER */
 const heartImages = [
   'balloon1.png','balloon2.png','balloon3.png','balloon4.png','balloon5.png',
   'balloon6.png','balloon7.png','balloon8.png','balloon9.png','balloon10.png'
 ];
 
-function random(min, max) {
-    return Math.random() * (max - min) + min;
+const rand = (min, max) => Math.random() * (max - min) + min;
+
+function spawnHeart() {
+    const h = document.createElement("div");
+    h.className = "balloon";
+
+    h.style.backgroundImage =
+        `url('${heartImages[Math.floor(rand(0, heartImages.length))]}')`;
+
+    const size = rand(40, 100);
+    h.style.width = `${size}px`;
+    h.style.height = `${size}px`;
+    h.style.left = `${rand(0, 95)}%`;
+
+    h.style.setProperty("--sway", `${rand(-200,200)}px`);
+    h.style.setProperty("--rotate", `${rand(-100,100)}deg`);
+
+    const dur = rand(6,12);
+    h.style.animation = `floatDown ${dur}s linear forwards`;
+
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), dur * 1000);
+
+    setTimeout(spawnHeart, rand(500,1200));
 }
 
-function createHeart() {
-    const heart = document.createElement('div');
-    heart.className = 'balloon';
-    heart.style.backgroundImage = `url('${heartImages[Math.floor(random(0, heartImages.length))]}')`;
-
-    const size = random(40, 100);
-    heart.style.width = `${size}px`;
-    heart.style.height = `${size}px`;
-
-    heart.style.left = `${random(0, 95)}%`;
-    heart.style.setProperty('--sway', `${random(-200,200)}px`);
-    heart.style.setProperty('--rotate', `${random(-100,100)}deg`);
-
-    const duration = random(6, 12);
-    heart.style.animation = `floatDown ${duration}s linear forwards`;
-    heart.style.pointerEvents = 'none';
-
-    document.body.appendChild(heart);
-
-    setTimeout(() => heart.remove(), duration * 1000);
-}
-
-function spawnHearts() {
-    // reduce frequency a bit (helps mobile perf)
-    createHeart();
-    setTimeout(spawnHearts, random(500, 1200));
-}
-
-spawnHearts();
+spawnHeart();
 </script>
 
 </body>
