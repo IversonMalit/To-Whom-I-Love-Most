@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For My Fairest</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
 <style>
 body {
@@ -13,16 +11,13 @@ body {
   padding: 0;
   font-family: 'Delius', sans-serif;
   background-color: #ffe6f2;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
   overflow-x: hidden;
   position: relative;
-  opacity: 0;
-  animation: fadeIn 1s forwards;
 }
-@keyframes fadeIn { to { opacity: 1; } }
 
 .header-box {
   margin-top: 20px;
@@ -33,7 +28,6 @@ body {
   font-size: clamp(1.5em, 6vw, 2.3em);
   font-weight: bold;
   text-align: center;
-  z-index: 2;
 }
 
 #countdown {
@@ -41,7 +35,6 @@ body {
   font-size: clamp(1em, 4vw, 1.5em);
   color: #c71585;
   text-align: center;
-  z-index: 2;
 }
 
 .buttons {
@@ -50,7 +43,6 @@ body {
   gap: 15px;
   flex-wrap: wrap;
   justify-content: center;
-  z-index: 2;
 }
 .btn {
   padding: 12px 25px;
@@ -68,7 +60,6 @@ body {
   box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
 }
 
-/* Rose */
 .rose-container {
   width: 90%;
   max-width: 500px;
@@ -96,11 +87,6 @@ body {
   10% { opacity: 1; }
   100% { transform: translateY(120vh) translateX(var(--sway)) rotate(var(--rotate)); opacity: 1; }
 }
-
-@media (max-width: 500px) {
-  body { padding: 10px; }
-  .header-box { padding: 12px 15px; }
-}
 </style>
 </head>
 <body>
@@ -116,6 +102,7 @@ body {
 </div>
 
 <script>
+// Navigation
 function goToPage(url) {
   document.body.style.animation = 'fadeOut 0.5s forwards';
   setTimeout(() => { window.location.href = url; }, 500);
