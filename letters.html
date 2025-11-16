@@ -9,17 +9,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
 
 <style>
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;         /* 💖 FIX: prevent side-scrolling */
+}
+
 body {
     font-family: 'Delius', sans-serif;
     background-color: #fff0f5;
     color: #333;
-    margin: 0;
     padding: 20px;
     min-height: 100vh;
     opacity: 0;
     animation: fadeIn 1s forwards;
     position: relative;
-    overflow: hidden;
+    touch-action: pan-y;        /* 💖 FIX: allow ONLY vertical scroll */
 }
 
 @keyframes fadeIn { to { opacity: 1; } }
@@ -40,16 +45,12 @@ body {
         transform: translate(0px, 0px) rotate(0deg);
         opacity: 0;
     }
-    10% {
-        opacity: 0.9;
-    }
+    10% { opacity: 0.9; }
     50% {
         transform: translate(var(--x-move), var(--y-move)) rotate(var(--rotate));
         opacity: 1;
     }
-    90% {
-        opacity: 0.8;
-    }
+    90% { opacity: 0.8; }
     100% {
         transform: translate(0px, 0px) rotate(calc(var(--rotate) * -1));
         opacity: 0;
@@ -60,26 +61,28 @@ body {
 h1 { 
     text-align: center; 
     color: #c71585; 
-    z-index: 2;
-    position: relative;
+    position: relative; 
+    z-index: 2; 
 }
 
+/* 💖 FIX: slightly smaller box for more visible roses */
 .letter {
     background-color: #ffe4e1;
-    padding: 20px;
+    padding: 15px;
     border-radius: 10px;
     margin: 20px auto;
-    max-width: 700px;
+    max-width: 600px;       /* smaller width */
     text-align: center;
     box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
     animation: slideUp 1s ease forwards;
     position: relative;
     z-index: 2;
+    margin-bottom: 120px;   /* 💖 FIX: reveal the rose PNG under it */
 }
 
 @keyframes slideUp {
     from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .back-btn {
@@ -104,17 +107,20 @@ h1 {
     box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
 }
 
-/* Decorative bottom rose image */
+/* Rose decoration under content */
 .rose-container {
     position: absolute;
-    bottom: 200px;
+    bottom: 180px;
     width: 100%;
     height: 600px;
     z-index: 1;
+    pointer-events: none;
 }
+
 .rose-container img {
     width: 100%;
     display: block;
+    opacity: 1;
 }
 </style>
 </head>
@@ -128,12 +134,12 @@ h1 {
     <p>I hope you know how important you are to me,</p>
     <p>you will always be my one and only. No matter what,</p>
     <p>I will always be right here beside you. Through every hardship,</p>
-    <p>achievement, happiness, and moment of doubt. I'll stand with you.</p>
+    <p>achievement, happiness, and moments of doubt. I'll stand with you.</p>
     &ensp;
     <p>You've become a big part of my life, and I am grateful for every moment I spend with you.</p>
     <p>Every smile, every laugh, and even when things become heavy.</p>
-    <p>All the memory, I will cherish it as long as it's with you.</p>
-    <p>Your presence brings me peace, comfort, strength, and the will to carry on everyday.</p>
+    <p>All the memories, I will cherish them as long as it's with you.</p>
+    <p>Your presence brings me peace, comfort, strength, and the will to carry on every day.</p>
     &ensp;
     <p>Always remember that my support for you isn't temporary,</p>
     <p>it's unwavering and unbreaking. I'll always believe in you.</p>
@@ -153,7 +159,7 @@ function goBack(){
     setTimeout(() => { window.location.href = 'index.html'; }, 500);
 }
 
-/* 🌹 Floating Roses Generator */
+/* 🌹 FLOATING ROSES */
 const roseImages = [
     "rosegraphic1.png",
     "rosegraphic2.png",
@@ -172,20 +178,17 @@ function spawnRose() {
     rose.src = roseImages[Math.floor(Math.random() * roseImages.length)];
     rose.className = "floating-rose";
 
-    /* Natural size mix */
     const size = random(40, 120);
     rose.style.width = size + "px";
 
-    /* Starting position */
     rose.style.left = random(0, 90) + "vw";
     rose.style.top = random(0, 80) + "vh";
 
-    /* Movement variables */
     rose.style.setProperty('--x-move', random(-80, 80) + "px");
     rose.style.setProperty('--y-move', random(-60, 60) + "px");
     rose.style.setProperty('--rotate', random(-40, 40) + "deg");
 
-    const duration = random(6, 12);
+    const duration = random(7, 13);
     rose.style.animationDuration = duration + "s";
 
     document.body.appendChild(rose);
@@ -196,7 +199,7 @@ function spawnRose() {
     }, duration * 1000);
 }
 
-/* Spawn 14 roses for a balanced aesthetic */
+/* Balanced aesthetic */
 for (let i = 0; i < 14; i++) {
     setTimeout(spawnRose, i * 400);
 }
