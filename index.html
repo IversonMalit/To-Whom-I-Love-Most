@@ -16,10 +16,10 @@
 <style>
 :root {
   --rose-height-desktop: 550px;
-  --rose-height-mobile: 350px; /* A — slightly lower roses */
+  --rose-height-mobile: 350px;
 }
 
-/* PAGE RESET */
+/* RESET */
 html, body {
     height: 100%;
     margin: 0;
@@ -42,7 +42,7 @@ body {
 @keyframes fadeIn { to { opacity: 1; } }
 @keyframes fadeOut { to { opacity: 0; } }
 
-/* MAIN CONTENT ABOVE ROSES */
+/* MAIN LAYOUT */
 .main {
     width: 100%;
     box-sizing: border-box;
@@ -50,11 +50,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
     padding-bottom: 20px;
 }
 
-/* HEADER */
+/* TITLE BOX */
 .header-box {
     margin-top: 40px;
     background: white;
@@ -64,17 +63,45 @@ body {
     font-size: 2.3em;
     font-weight: bold;
     color: #000;
-    text-align: center;
     z-index: 10;
     position: relative;
 }
 
-/* COUNTDOWN */
-#countdown {
-    margin-top: 20px;
-    font-size: 1.5em;
-    color: #c71585;
+/* 4-BOX COUNTDOWN */
+#countdown-wrapper {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
     z-index: 10;
+}
+
+.time-box {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 15px 20px;
+    border-radius: 15px;
+    text-align: center;
+    width: 90px;
+    box-shadow: 
+        0 0 15px rgba(199, 21, 133, 0.4),   /* 💗 ADDED GLOW */
+        0 4px 12px rgba(0,0,0,0.12);
+    backdrop-filter: blur(4px);
+}
+
+.time-box .num {
+    font-size: 1.7em;
+    font-weight: bold;
+    color: #c71585;
+}
+
+.time-box .label {
+    margin-top: 3px;
+    font-size: 0.9em;
+    color: #444;
+}
+
+.seconds-box {
+    opacity: 0.85;
+    transform: scale(0.95);
 }
 
 /* BUTTONS */
@@ -102,7 +129,16 @@ body {
     box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
 }
 
-/* ROSES — FIXED ON DESKTOP */
+/* MONTHSARY MESSAGE */
+#monthsary {
+    display: none;
+    margin-top: 15px;
+    font-size: 1.3em;
+    color: #c71585;
+    font-weight: bold;
+}
+
+/* ROSE BACKGROUND */
 .rose-container {
     position: absolute;
     bottom: 0;
@@ -117,10 +153,9 @@ body {
     height: 100%;
     object-fit: cover;
     object-position: top;
-    display: block;
 }
 
-/* HEARTS */
+/* FLOATING HEARTS */
 .balloon {
     position: absolute;
     top: -100px;
@@ -138,54 +173,52 @@ body {
     100% { transform: translateY(120vh) translateX(var(--sway)) rotate(var(--rotate)); opacity: 1; }
 }
 
+/* EMOJI EXPLOSION */
+@keyframes explode {
+    0% { transform: translate(0,0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--xMove), var(--yMove)) scale(0.2); opacity: 0; }
+}
+
+.emoji {
+    position: absolute;
+    font-size: 2.2rem;
+    z-index: 999;
+    pointer-events: none;
+}
+
 /* MOBILE FIXES */
 @media (max-width: 600px) {
-
-    /* MOBILE SHOULD NOT MOVE */
     body {
         overflow: hidden;
         touch-action: none;
     }
-
-    /* Adjust main height so text sits above lower roses */
     .main {
         min-height: calc(100vh - var(--rose-height-mobile));
     }
-
     .header-box {
         font-size: 1.6em;
         padding: 15px 25px;
         margin-top: 20px;
     }
-
-    #countdown {
-        margin-top: 12px;
-        font-size: 1.2em;
+    #countdown-wrapper {
+        transform: scale(0.9);
     }
-
     .btn {
         width: 80%;
-        font-size: 1.05em;
         padding: 13px;
+        font-size: 1.05em;
     }
-
-    /* Roses stay fixed in place */
     .rose-container {
         position: fixed;
         bottom: 0;
         height: var(--rose-height-mobile);
     }
-
-    .balloon {
-        opacity: 0.95;
-    }
 }
 
-/* DESKTOP — KEEP SCROLL DISABLED */
+/* DESKTOP - NO SCROLL */
 @media (min-width: 601px) {
     body {
-        overflow-y: hidden; /* desktop should never scroll */
-        touch-action: auto;
+        overflow-y: hidden;
     }
 }
 </style>
@@ -194,18 +227,43 @@ body {
 <body>
 
 <div class="main">
-  <div class="header-box">"To Whom I Love Most"</div>
 
-  <div id="countdown">Loading countdown...</div>
+    <div class="header-box">"To Whom I Love Most"</div>
 
-  <div class="buttons" id="buttons">
-      <button class="btn" onclick="goToPage('letters.html')">Letter</button>
-      <button class="btn" onclick="goToPage('poems.html')">Poems</button>
-  </div>
+    <!-- 4-BOX COUNTDOWN -->
+    <div id="countdown-wrapper">
+        <div class="time-box">
+            <div id="days" class="num">0</div>
+            <div class="label">Days</div>
+        </div>
+        <div class="time-box">
+            <div id="hours" class="num">0</div>
+            <div class="label">Hours</div>
+        </div>
+        <div class="time-box">
+            <div id="minutes" class="num">0</div>
+            <div class="label">Minutes</div>
+        </div>
+        <div class="time-box seconds-box">
+            <div id="seconds" class="num">0</div>
+            <div class="label">Seconds</div>
+        </div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="buttons" id="buttons">
+        <button class="btn" onclick="goToPage('letters.html')">Letter</button>
+        <button class="btn" onclick="goToPage('poems.html')">Poems</button>
+    </div>
+
+    <!-- MONTHSARY MESSAGE -->
+    <p id="monthsary">❤️❤️❤️ Happy 4th Monthsary po Lablabssss!!! ❤️❤️❤️</p>
+
 </div>
 
+<!-- ROSES -->
 <div class="rose-container" aria-hidden="true">
-    <img src="rose_PNG66734.png" alt="rose petals">
+    <img src="rose_PNG66734.png" alt="roses">
 </div>
 
 <script>
@@ -214,20 +272,53 @@ function goToPage(url) {
     setTimeout(() => window.location.href = url, 500);
 }
 
-/* COUNTDOWN */
-const countdownEl = document.getElementById("countdown");
+/* GET ELEMENTS */
+const daysEl = document.getElementById("days");
+const hoursEl = document.getElementById("hours");
+const minutesEl = document.getElementById("minutes");
+const secondsEl = document.getElementById("seconds");
 const buttonsDiv = document.getElementById("buttons");
+const monthsaryMsg = document.getElementById("monthsary");
 
-const targetDate = new Date("November 18, 2025 00:00:00").getTime();
+/* DATE */
+const targetDate = new Date("November 17, 2025 01:09:00").getTime();
 
+/* 🎉 EMOJI EXPLOSION FUNCTION */
+function emojiExplosion() {
+    const emojis = ["💖", "💕", "🌹", "✨", "💗", "💞", "💓", "❤️"];
+    for (let i = 0; i < 40; i++) {
+        const e = document.createElement("div");
+        e.className = "emoji";
+        e.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+        e.style.left = Math.random() * 100 + "vw";
+        e.style.top = Math.random() * 60 + "vh";
+
+        e.style.setProperty("--xMove", (Math.random() * 300 - 150) + "px");
+        e.style.setProperty("--yMove", (Math.random() * -300 - 50) + "px");
+
+        e.style.animation = "explode 1.2s ease-out forwards";
+
+        document.body.appendChild(e);
+
+        setTimeout(() => e.remove(), 1300);
+    }
+}
+
+/* UPDATE LOOP */
 function updateCountdown() {
     const now = Date.now();
     const distance = targetDate - now;
 
     if (distance <= 0) {
-        buttonsDiv.style.display = "flex";
-        countdownEl.style.display = "none";
         clearInterval(countdownInterval);
+
+        document.getElementById("countdown-wrapper").style.display = "none";
+        buttonsDiv.style.display = "flex";
+        monthsaryMsg.style.display = "block";
+
+        emojiExplosion();  /* 🎉 ADDED EXPLOSION */
+
         return;
     }
 
@@ -236,8 +327,10 @@ function updateCountdown() {
     const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
     const seconds = Math.floor((distance % (1000*60)) / 1000);
 
-    countdownEl.textContent =
-        `Unlocks in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    daysEl.textContent = days;
+    hoursEl.textContent = hours;
+    minutesEl.textContent = minutes;
+    secondsEl.textContent = seconds;
 }
 
 const countdownInterval = setInterval(updateCountdown, 1000);
@@ -280,13 +373,3 @@ spawnHeart();
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
