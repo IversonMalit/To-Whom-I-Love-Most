@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- Prevent zoom + keep mobile fixed layout -->
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!-- Mobile layout with scroll allowed -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>To Whom I Love Most</title>
 
@@ -32,17 +31,16 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-x: hidden;
+    overflow-x: hidden;   /* ❗ No sideways scroll */
     opacity: 0;
     animation: fadeIn 1s forwards;
     -webkit-tap-highlight-color: transparent;
-    user-select: none;
 }
 
 @keyframes fadeIn { to { opacity: 1; } }
 @keyframes fadeOut { to { opacity: 0; } }
 
-/* MAIN LAYOUT */
+/* MAIN */
 .main {
     width: 100%;
     box-sizing: border-box;
@@ -50,29 +48,30 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-bottom: 20px;
+    padding-bottom: 40px;
 }
 
-/* TITLE BOX */
+/* TITLE */
 .header-box {
-    margin-top: 40px;
+    margin-top: 35px;
     background: white;
     padding: 25px 50px;
     border-radius: 25px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     font-size: 2.3em;
     font-weight: bold;
-    color: #000;
+    text-align: center;
     z-index: 10;
-    position: relative;
 }
 
-/* 4-BOX COUNTDOWN */
+/* COUNTDOWN 4 BOXES */
 #countdown-wrapper {
     margin-top: 25px;
     display: flex;
     gap: 15px;
     z-index: 10;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .time-box {
@@ -81,35 +80,30 @@ body {
     border-radius: 15px;
     text-align: center;
     width: 90px;
-    box-shadow: 
-        0 0 15px rgba(199, 21, 133, 0.4),   /* 💗 ADDED GLOW */
+    box-shadow:
+        0 0 15px rgba(199, 21, 133, 0.4),
         0 4px 12px rgba(0,0,0,0.12);
     backdrop-filter: blur(4px);
 }
 
-.time-box .num {
+.num {
     font-size: 1.7em;
     font-weight: bold;
     color: #c71585;
 }
-
-.time-box .label {
-    margin-top: 3px;
+.label {
     font-size: 0.9em;
     color: #444;
 }
 
-.seconds-box {
-    opacity: 0.85;
-    transform: scale(0.95);
-}
-
 /* BUTTONS */
 .buttons {
-    margin-top: 40px;
+    margin-top: 35px;
     display: none;
     gap: 20px;
     z-index: 10;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .btn {
@@ -126,7 +120,6 @@ body {
 
 .btn:hover {
     transform: scale(1.03);
-    box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
 }
 
 /* MONTHSARY MESSAGE */
@@ -136,16 +129,17 @@ body {
     font-size: 1.3em;
     color: #c71585;
     font-weight: bold;
+    text-align: center;
+    padding: 0 15px;
 }
 
-/* ROSE BACKGROUND */
+/* ROSES */
 .rose-container {
-    position: absolute;
-    bottom: 0;
     width: 100%;
     height: var(--rose-height-desktop);
     overflow: hidden;
     z-index: 1;
+    margin-top: auto;
 }
 
 .rose-container img {
@@ -157,7 +151,7 @@ body {
 
 /* FLOATING HEARTS */
 .balloon {
-    position: absolute;
+    position: fixed;
     top: -100px;
     background-size: contain;
     background-repeat: no-repeat;
@@ -183,42 +177,28 @@ body {
     position: absolute;
     font-size: 2.2rem;
     z-index: 999;
-    pointer-events: none;
 }
 
 /* MOBILE FIXES */
 @media (max-width: 600px) {
-    body {
-        overflow: hidden;
-        touch-action: none;
-    }
-    .main {
-        min-height: calc(100vh - var(--rose-height-mobile));
-    }
     .header-box {
         font-size: 1.6em;
-        padding: 15px 25px;
-        margin-top: 20px;
+        padding: 18px 25px;
     }
     #countdown-wrapper {
         transform: scale(0.9);
+        margin-top: 20px;
     }
     .btn {
         width: 80%;
-        padding: 13px;
-        font-size: 1.05em;
+        font-size: 1.1em;
+        padding: 12px;
+    }
+    #monthsary {
+        font-size: 1.2em;
     }
     .rose-container {
-        position: fixed;
-        bottom: 0;
         height: var(--rose-height-mobile);
-    }
-}
-
-/* DESKTOP - NO SCROLL */
-@media (min-width: 601px) {
-    body {
-        overflow-y: hidden;
     }
 }
 </style>
@@ -230,24 +210,12 @@ body {
 
     <div class="header-box">"To Whom I Love Most"</div>
 
-    <!-- 4-BOX COUNTDOWN -->
+    <!-- COUNTDOWN -->
     <div id="countdown-wrapper">
-        <div class="time-box">
-            <div id="days" class="num">0</div>
-            <div class="label">Days</div>
-        </div>
-        <div class="time-box">
-            <div id="hours" class="num">0</div>
-            <div class="label">Hours</div>
-        </div>
-        <div class="time-box">
-            <div id="minutes" class="num">0</div>
-            <div class="label">Minutes</div>
-        </div>
-        <div class="time-box seconds-box">
-            <div id="seconds" class="num">0</div>
-            <div class="label">Seconds</div>
-        </div>
+        <div class="time-box"><div id="days" class="num">0</div><div class="label">Days</div></div>
+        <div class="time-box"><div id="hours" class="num">0</div><div class="label">Hours</div></div>
+        <div class="time-box"><div id="minutes" class="num">0</div><div class="label">Minutes</div></div>
+        <div class="time-box"><div id="seconds" class="num">0</div><div class="label">Seconds</div></div>
     </div>
 
     <!-- BUTTONS -->
@@ -256,13 +224,13 @@ body {
         <button class="btn" onclick="goToPage('poems.html')">Poems</button>
     </div>
 
-    <!-- MONTHSARY MESSAGE -->
-    <p id="monthsary">❤️ Happy 4th Monthsary po Lablabssss!!! ❤️</p>
+    <!-- MESSAGE -->
+    <p id="monthsary">❤️❤️❤️ Happy 4th Monthsary po Lablabssss!!! ❤️❤️❤️</p>
 
 </div>
 
 <!-- ROSES -->
-<div class="rose-container" aria-hidden="true">
+<div class="rose-container">
     <img src="rose_PNG66734.png" alt="roses">
 </div>
 
@@ -280,91 +248,80 @@ const secondsEl = document.getElementById("seconds");
 const buttonsDiv = document.getElementById("buttons");
 const monthsaryMsg = document.getElementById("monthsary");
 
-/* DATE */
-const targetDate = new Date("November 18, 2025 00:00:00").getTime();
+/* SET TARGET TIME */
+const targetDate = new Date("November 17, 2025 01:15:00").getTime();
 
-/* 🎉 EMOJI EXPLOSION FUNCTION */
+/* EMOJI EXPLOSION */
 function emojiExplosion() {
-    const emojis = ["💖", "💕", "🌹", "✨", "💗", "💞", "💓", "❤️"];
+    const emojis = ["💖","💕","🌹","✨","💗","💞","💓","❤️"];
     for (let i = 0; i < 40; i++) {
         const e = document.createElement("div");
         e.className = "emoji";
-        e.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        e.textContent = emojis[Math.floor(Math.random()*emojis.length)];
 
-        e.style.left = Math.random() * 100 + "vw";
-        e.style.top = Math.random() * 60 + "vh";
+        e.style.left = Math.random()*100 + "vw";
+        e.style.top = Math.random()*60 + "vh";
 
-        e.style.setProperty("--xMove", (Math.random() * 300 - 150) + "px");
-        e.style.setProperty("--yMove", (Math.random() * -300 - 50) + "px");
+        e.style.setProperty("--xMove", (Math.random()*300-150)+"px");
+        e.style.setProperty("--yMove", (Math.random()*-300-50)+"px");
 
         e.style.animation = "explode 1.2s ease-out forwards";
 
         document.body.appendChild(e);
-
-        setTimeout(() => e.remove(), 1300);
+        setTimeout(()=>e.remove(),1300);
     }
 }
 
-/* UPDATE LOOP */
+/* COUNTDOWN LOOP */
 function updateCountdown() {
     const now = Date.now();
     const distance = targetDate - now;
 
     if (distance <= 0) {
         clearInterval(countdownInterval);
-
         document.getElementById("countdown-wrapper").style.display = "none";
         buttonsDiv.style.display = "flex";
         monthsaryMsg.style.display = "block";
-
-        emojiExplosion();  /* 🎉 ADDED EXPLOSION */
-
+        emojiExplosion(); 
         return;
     }
 
-    const days = Math.floor(distance / (1000*60*60*24));
-    const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-    const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-    const seconds = Math.floor((distance % (1000*60)) / 1000);
-
-    daysEl.textContent = days;
-    hoursEl.textContent = hours;
-    minutesEl.textContent = minutes;
-    secondsEl.textContent = seconds;
+    daysEl.textContent = Math.floor(distance/(1000*60*60*24));
+    hoursEl.textContent = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+    minutesEl.textContent = Math.floor((distance%(1000*60*60))/(1000*60));
+    secondsEl.textContent = Math.floor((distance%(1000*60))/1000);
 }
 
 const countdownInterval = setInterval(updateCountdown, 1000);
 updateCountdown();
 
-/* HEART SPAWNER */
+/* HEARTS */
 const heartImages = [
-  'balloon1.png','balloon2.png','balloon3.png','balloon4.png','balloon5.png',
-  'balloon6.png','balloon7.png','balloon8.png','balloon9.png','balloon10.png'
+  "balloon1.png","balloon2.png","balloon3.png","balloon4.png","balloon5.png",
+  "balloon6.png","balloon7.png","balloon8.png","balloon9.png","balloon10.png"
 ];
 
-const rand = (min, max) => Math.random() * (max - min) + min;
+function rand(min,max){ return Math.random()*(max-min)+min; }
 
 function spawnHeart() {
     const h = document.createElement("div");
     h.className = "balloon";
 
-    h.style.backgroundImage =
-        `url('${heartImages[Math.floor(rand(0, heartImages.length))]}')`;
+    h.style.backgroundImage = `url('${heartImages[Math.floor(rand(0,heartImages.length))]}')`;
 
-    const size = rand(40, 100);
-    h.style.width = `${size}px`;
-    h.style.height = `${size}px`;
-    h.style.left = `${rand(0, 95)}%`;
+    const size = rand(40,100);
+    h.style.width = size+"px";
+    h.style.height = size+"px";
+    h.style.left = rand(0,95)+"%";
 
-    h.style.setProperty("--sway", `${rand(-200,200)}px`);
-    h.style.setProperty("--rotate", `${rand(-100,100)}deg`);
+    h.style.setProperty("--sway", rand(-200,200)+"px");
+    h.style.setProperty("--rotate", rand(-100,100)+"deg");
 
     const dur = rand(6,12);
     h.style.animation = `floatDown ${dur}s linear forwards`;
 
     document.body.appendChild(h);
-    setTimeout(() => h.remove(), dur * 1000);
-
+    setTimeout(()=>h.remove(), dur*1000);
     setTimeout(spawnHeart, rand(500,1200));
 }
 
@@ -373,4 +330,3 @@ spawnHeart();
 
 </body>
 </html>
-
