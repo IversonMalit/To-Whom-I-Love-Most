@@ -8,10 +8,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
 <style>
-/* Basic body */
 body {
     margin: 0;
-    padding: 0 10px;
+    padding: 0;
     font-family: 'Delius', sans-serif;
     background-color: #ffe6f2;
     display: flex;
@@ -19,37 +18,35 @@ body {
     align-items: center;
     min-height: 100vh;
     overflow-x: hidden;
+    overflow-y: auto;
     opacity: 0;
     animation: fadeIn 1s forwards;
 }
 @keyframes fadeIn { to { opacity: 1; } }
 
-/* Header */
 .header-box {
-    margin-top: 40px;
+    margin-top: 20px;
     background: white;
-    padding: 20px 30px;
+    padding: 15px 20px;
     border-radius: 25px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     font-size: clamp(1.5em, 6vw, 2.3em);
     font-weight: bold;
     color: #000;
     text-align: center;
-    position: relative;
     z-index: 2;
 }
 
-/* Buttons */
 .buttons {
-    margin-top: 20px;
-    display: none; /* hidden until unlocked */
+    margin-top: 15px;
+    display: none; /* hidden until unlock */
     gap: 15px;
     flex-wrap: wrap;
     justify-content: center;
     z-index: 2;
 }
 .btn {
-    padding: 12px 30px;
+    padding: 12px 25px;
     background-color: #c71585;
     color: white;
     border: none;
@@ -64,9 +61,8 @@ body {
     box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
 }
 
-/* Countdown */
 #countdown {
-    margin-top: 20px;
+    margin-top: 15px;
     font-size: clamp(1em, 4vw, 1.5em);
     color: #c71585;
     text-align: center;
@@ -75,10 +71,8 @@ body {
 
 /* Rose image container */
 .rose-container {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    height: auto;
+    width: 90%;
+    max-width: 500px;
     margin: 20px 0;
     z-index: 1;
 }
@@ -99,18 +93,22 @@ body {
     z-index: 0;
 }
 
-/* Heart animation */
 @keyframes floatDown {
     0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
     10% { opacity: 1; }
     100% { transform: translateY(120vh) translateX(var(--sway)) rotate(var(--rotate)); opacity: 1; }
 }
 
-/* Responsive adjustments */
 @media (max-width: 500px) {
+    body {
+        padding: 10px;
+    }
+    .header-box {
+        margin-top: 15px;
+        padding: 12px 15px;
+    }
     .buttons {
-        flex-direction: column;
-        gap: 10px;
+        margin-top: 10px;
     }
 }
 </style>
