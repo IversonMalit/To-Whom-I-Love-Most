@@ -3,11 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For My Fairest</title>
+<title>To Whom I Love Most</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+
 <style>
+/* GENERAL PAGE STYLES */
 body {
     margin: 0;
     padding: 0;
@@ -16,18 +19,17 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    height: 100vh;
-    overflow: hidden; /* hide scrollbars */
+    min-height: 100vh;       /* allow page to expand */
+    overflow-x: hidden;
     opacity: 0;
     animation: fadeIn 1s forwards;
-
-    /* Prevent mobile scrolling */
-    overscroll-behavior: none;
-    touch-action: none;
 }
-@keyframes fadeIn { to { opacity: 1; } }
 
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+/* HEADER */
 .header-box {
     margin-top: 40px;
     background: white;
@@ -39,31 +41,25 @@ body {
     color: #000000;
     text-align: center;
     position: relative;
-    z-index: 2;
+    z-index: 10;
 }
 
-.rose-container {
-    position: absolute;
-    bottom: 200px;
-    top: 200px;
-    width: 100%;
-    height: 600px;
-    overflow: visible;
-    z-index: 1;
-}
-.rose-container img {
-    width: 100%;
-    object-fit: cover;
-    display: block;
+/* COUNTDOWN */
+#countdown {
+    margin-top: 20px;
+    font-size: 1.5em;
+    color: #c71585;
+    z-index: 10;
 }
 
+/* BUTTONS */
 .buttons {
     margin-top: 40px;
-    display: flex;
+    display: none; /* hidden until unlock */
     gap: 20px;
-    z-index: 2;
-    display: none; /* hidden initially, shows after countdown */
+    z-index: 10;
 }
+
 .btn {
     padding: 15px 40px;
     background-color: #c71585;
@@ -80,14 +76,19 @@ body {
     box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
 }
 
-/* Countdown display */
-#countdown {
-    margin-top: 20px;
-    font-size: 1.5em;
-    color: #c71585;
+/* ROSE PETALS */
+.rose-container {
+    width: 100%;
+    margin-top: 50px;
 }
 
-/* hearts */
+.rose-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* FLOATING HEARTS */
 .balloon {
     position: absolute;
     top: -100px;
@@ -95,54 +96,82 @@ body {
     background-repeat: no-repeat;
     pointer-events: none;
     opacity: 0;
-    z-index: 0;
+    z-index: 1;
 }
 
-/* heart animation */
 @keyframes floatDown {
     0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
     10% { opacity: 1; }
     100% { transform: translateY(120vh) translateX(var(--sway)) rotate(var(--rotate)); opacity: 1; }
 }
+
+/* ⭐ MOBILE FIXES ⭐ */
+@media (max-width: 600px) {
+    body {
+        padding-bottom: 50px;
+    }
+
+    .header-box {
+        font-size: 1.6em;
+        padding: 15px 25px;
+        margin-top: 20px;
+    }
+
+    #countdown {
+        font-size: 1.2em;
+        margin-top: 15px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 80%;
+        font-size: 1.1em;
+        padding: 15px;
+    }
+
+    .rose-container {
+        margin-top: 30px;
+    }
+}
 </style>
 </head>
+
 <body>
 
-<div class="header-box">For My Fairest</div>
+<div class="header-box">"To Whom I Love Most"</div>
+
+<div id="countdown">Loading countdown...</div>
 
 <div class="buttons" id="buttons">
     <button class="btn" onclick="goToPage('letters.html')">Letter</button>
     <button class="btn" onclick="goToPage('poems.html')">Poems</button>
 </div>
 
-<div id="countdown">Loading countdown...</div>
-
 <div class="rose-container">
     <img src="rose_PNG66734.png" alt="rose petals">
 </div>
 
 <script>
-// Prevent touch scrolling on mobile
-document.addEventListener('touchmove', function(e){
-    e.preventDefault();
-}, { passive: false });
-
-// Page navigation
 function goToPage(url) {
     document.body.style.animation = 'fadeOut 0.5s forwards';
     setTimeout(() => { window.location.href = url; }, 500);
 }
 
-// Countdown setup for Nov 18, 2025 00:00:00
+// COUNTDOWN
 const countdownEl = document.getElementById('countdown');
 const buttonsDiv = document.getElementById('buttons');
+
+// Target date: November 18, 2025 12:00 AM
 const targetDate = new Date("November 18, 2025 00:00:00").getTime();
 
 function updateCountdown() {
     const now = new Date().getTime();
     const distance = targetDate - now;
 
-    if(distance <= 0){
+    if (distance <= 0) {
         buttonsDiv.style.display = 'flex';
         countdownEl.style.display = 'none';
         clearInterval(countdownInterval);
@@ -156,15 +185,19 @@ function updateCountdown() {
 
     countdownEl.textContent = `Unlocks in ${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
+
 const countdownInterval = setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// Heart animation
+// HEART SPAWNER
 const heartImages = [
   'balloon1.png','balloon2.png','balloon3.png','balloon4.png','balloon5.png',
   'balloon6.png','balloon7.png','balloon8.png','balloon9.png','balloon10.png'
 ];
-function random(min, max) { return Math.random() * (max - min) + min; }
+
+function random(min, max) {
+    return Math.random() * (max - min) + min;
+}
 
 function createHeart() {
     const heart = document.createElement('div');
@@ -174,6 +207,7 @@ function createHeart() {
     const size = random(40, 100);
     heart.style.width = `${size}px`;
     heart.style.height = `${size}px`;
+
     heart.style.left = `${random(0, 95)}%`;
     heart.style.setProperty('--sway', `${random(-200,200)}px`);
     heart.style.setProperty('--rotate', `${random(-100,100)}deg`);
@@ -182,13 +216,15 @@ function createHeart() {
     heart.style.animation = `floatDown ${duration}s linear forwards`;
 
     document.body.appendChild(heart);
+
     setTimeout(() => heart.remove(), duration * 1000);
 }
 
 function spawnHearts() {
     createHeart();
-    setTimeout(spawnHearts, random(200,800));
+    setTimeout(spawnHearts, random(200, 800));
 }
+
 spawnHearts();
 </script>
 
