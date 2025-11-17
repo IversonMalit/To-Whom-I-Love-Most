@@ -32,7 +32,7 @@ h1 {
 
 /* Main message box */
 .poem {
-    background-color: rgba(255, 228, 225, 0.75); /* LOWER opacity */
+    background-color: rgba(255, 228, 225, 0.75);
     padding: 20px;
     border-radius: 10px;
     margin: 20px auto;
@@ -47,7 +47,7 @@ h1 {
 /* Desktop layout for poem sides */
 .left-column, .right-column {
     position: absolute;
-    top: 420px;
+    top: 360px; /* ✨ OPTION A: MOVED HIGHER */
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -59,15 +59,13 @@ h1 {
 
 /* Side poem boxes */
 .side-poem {
-    background-color: rgba(255, 228, 225, 0.75); /* LOWER opacity */
+    background-color: rgba(255, 228, 225, 0.75);
     padding: 15px;
     border-radius: 10px;
-    width: 200px;
-    height: 120px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 220px;
+    min-height: 250px;
+    text-align: left;
+    white-space: pre-line;
     box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
     z-index: 2;
 }
@@ -112,13 +110,11 @@ h1 {
 
     body { overflow-y: auto; }
 
-    /* Main poem centered */
     .poem {
         max-width: 90%;
         font-size: 0.95em;
     }
 
-    /* Remove side layout */
     .left-column, .right-column {
         position: static;
         flex-direction: column;
@@ -126,7 +122,6 @@ h1 {
         margin-top: 20px;
     }
 
-    /* Stack them vertically */
     .side-poem {
         width: 85%;
         height: auto;
@@ -135,7 +130,6 @@ h1 {
         font-size: 1em;
     }
 
-    /* Make rose smaller + centered */
     .rose-container {
         position: relative;
         top: 0;
@@ -170,9 +164,28 @@ h1 {
     <img src="roses2.png" alt="decorative image">
 </div>
 
-<!-- Left + Right poems (desktop only, mobile merges them) -->
+<!-- Left + Right poems -->
 <div class="left-column">
-    <div class="side-poem">Poem 1 aaaaaaaaaa</div>
+    <div class="side-poem">
+"My Bounded Heart"
+
+For her alone, my every part,
+Every thought of her is an art;
+In every dawn, through the dark,
+only she can leave a mark.
+
+Her beauty blinds me,
+My love for her
+grows every day; an unending tree.
+One reaching the heaven,
+I thank the blessing;
+for her, to me, she was given.
+
+I am rich;
+Not with wealth nor fortunes told;
+but her love,
+is dearer far than all gold.
+    </div>
 </div>
 
 <div class="right-column">
