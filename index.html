@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- Mobile layout with scroll allowed -->
+<!-- Mobile layout -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>To Whom I Love Most</title>
@@ -31,7 +31,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-x: hidden;   /* ❗ No sideways scroll */
+    overflow-x: hidden;
     opacity: 0;
     animation: fadeIn 1s forwards;
     -webkit-tap-highlight-color: transparent;
@@ -64,7 +64,7 @@ body {
     z-index: 10;
 }
 
-/* COUNTDOWN 4 BOXES */
+/* COUNTDOWN BOXES */
 #countdown-wrapper {
     margin-top: 25px;
     display: flex;
@@ -80,9 +80,7 @@ body {
     border-radius: 15px;
     text-align: center;
     width: 90px;
-    box-shadow:
-        0 0 15px rgba(199, 21, 133, 0.4),
-        0 4px 12px rgba(0,0,0,0.12);
+    box-shadow: 0 0 15px rgba(199,21,133,0.4), 0 4px 12px rgba(0,0,0,0.12);
     backdrop-filter: blur(4px);
 }
 
@@ -91,6 +89,7 @@ body {
     font-weight: bold;
     color: #c71585;
 }
+
 .label {
     font-size: 0.9em;
     color: #444;
@@ -122,7 +121,7 @@ body {
     transform: scale(1.03);
 }
 
-/* MONTHSARY MESSAGE */
+/* MESSAGE */
 #monthsary {
     display: none;
     margin-top: 15px;
@@ -133,7 +132,24 @@ body {
     padding: 0 15px;
 }
 
-/* ROSES */
+/* REASON BOX */
+#reasonBox {
+    display: none;
+    margin-top: 25px;
+    background: rgba(255,255,255,0.88);
+    padding: 20px 25px;
+    border-radius: 20px;
+    max-width: 420px;
+    width: 85%;
+    font-size: 1.2em;
+    text-align: center;
+    color: #c71585;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+    animation: fadeIn 0.6s ease forwards;
+    z-index: 10;
+}
+
+/* ROSES IMAGE */
 .rose-container {
     width: 100%;
     height: var(--rose-height-desktop);
@@ -167,7 +183,7 @@ body {
     100% { transform: translateY(120vh) translateX(var(--sway)) rotate(var(--rotate)); opacity: 1; }
 }
 
-/* EMOJI EXPLOSION */
+/* EXPLOSION EMOJIS */
 @keyframes explode {
     0% { transform: translate(0,0) scale(1); opacity: 1; }
     100% { transform: translate(var(--xMove), var(--yMove)) scale(0.2); opacity: 0; }
@@ -179,7 +195,7 @@ body {
     z-index: 999;
 }
 
-/* MOBILE FIXES */
+/* MOBILE LAYOUT */
 @media (max-width: 600px) {
     .header-box {
         font-size: 1.6em;
@@ -189,13 +205,24 @@ body {
         transform: scale(0.9);
         margin-top: 20px;
     }
+
+    /* Stack buttons like a ladder */
+    .buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
     .btn {
         width: 80%;
         font-size: 1.1em;
         padding: 12px;
     }
+
     #monthsary {
         font-size: 1.2em;
+    }
+    #reasonBox {
+        font-size: 1.1em;
+        padding: 15px 20px;
     }
     .rose-container {
         height: var(--rose-height-mobile);
@@ -222,10 +249,14 @@ body {
     <div class="buttons" id="buttons">
         <button class="btn" onclick="goToPage('letters.html')">Letter</button>
         <button class="btn" onclick="goToPage('poems.html')">Poems</button>
+        <button class="btn" onclick="showReason()">Reason Why I Love You</button>
     </div>
 
+    <!-- RANDOM REASON BOX -->
+    <div id="reasonBox"></div>
+
     <!-- MESSAGE -->
-    <p id="monthsary">Happy 4th Monthsary po    Lablabssss!!!</p>
+    <p id="monthsary">Happy 4th Monthsary po Lablabssss!!!</p>
 
 </div>
 
@@ -247,11 +278,70 @@ const minutesEl = document.getElementById("minutes");
 const secondsEl = document.getElementById("seconds");
 const buttonsDiv = document.getElementById("buttons");
 const monthsaryMsg = document.getElementById("monthsary");
+const reasonBox = document.getElementById("reasonBox");
 
-/* SET TARGET TIME */
-const targetDate = new Date("November 17, 2025 23:22:00").getTime();
+/* 50 REASONS */
+const reasons = [
+"Your smile makes my entire day brighter.",
+"Your voice feels like home.",
+"The way you care so deeply.",
+"Your laugh is my favorite sound.",
+"You make me want to be better.",
+"I feel safe with you.",
+"You understand me even without words.",
+"You never gave up on me.",
+"You make ordinary days feel special.",
+"You make me feel loved effortlessly.",
+"Your patience with me is unmatched.",
+"You remember the little things.",
+"You make life exciting.",
+"You inspire me every day.",
+"You see the good in me.",
+"You comfort me in ways no one else can.",
+"You make the world feel less scary.",
+"You always try for us.",
+"You choose me every day.",
+"I feel lucky to love you.",
+"You support my dreams.",
+"You believe in me.",
+"You make me smile even when I don't want to.",
+"You calm my storms.",
+"You make everything softer.",
+"You give the best hugs.",
+"You listen to me even when I'm messy.",
+"You never make me feel alone.",
+"You make love feel easy.",
+"You encourage me.",
+"You accept me fully.",
+"You're the sweetest person I know.",
+"You make my heart warm.",
+"You love me in a way no one else does.",
+"You make time feel faster.",
+"You're beautiful inside and out.",
+"You make me feel important.",
+"You teach me love.",
+"You bring out the best in me.",
+"I love your heart.",
+"I love the way you say my name.",
+"I love the way you care.",
+"I love the way you look at me.",
+"I love how we understand each other.",
+"I love how you're mine.",
+"I love how we grow together.",
+"You're my peace.",
+"You're my favorite person."
+];
 
-/* EMOJI EXPLOSION */
+/* SHOW RANDOM REASON */
+function showReason() {
+    const r = reasons[Math.floor(Math.random() * reasons.length)];
+    reasonBox.style.display = "block";
+    reasonBox.textContent = r;
+}
+
+/* COUNTDOWN */
+const targetDate = new Date("November 17, 2025 21:28:40").getTime();
+
 function emojiExplosion() {
     const emojis = ["💖","💕","🌹","✨","💗","💞","💓","❤️"];
     for (let i = 0; i < 40; i++) {
@@ -272,7 +362,6 @@ function emojiExplosion() {
     }
 }
 
-/* COUNTDOWN LOOP */
 function updateCountdown() {
     const now = Date.now();
     const distance = targetDate - now;
@@ -282,7 +371,7 @@ function updateCountdown() {
         document.getElementById("countdown-wrapper").style.display = "none";
         buttonsDiv.style.display = "flex";
         monthsaryMsg.style.display = "block";
-        emojiExplosion(); 
+        emojiExplosion();
         return;
     }
 
@@ -295,7 +384,7 @@ function updateCountdown() {
 const countdownInterval = setInterval(updateCountdown, 1000);
 updateCountdown();
 
-/* HEARTS */
+/* FLOATING HEARTS */
 const heartImages = [
   "balloon1.png","balloon2.png","balloon3.png","balloon4.png","balloon5.png",
   "balloon6.png","balloon7.png","balloon8.png","balloon9.png","balloon10.png"
@@ -330,11 +419,3 @@ spawnHeart();
 
 </body>
 </html>
-
-
-
-
-
-
-
-
